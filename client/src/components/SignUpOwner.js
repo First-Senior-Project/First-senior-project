@@ -9,8 +9,6 @@ function SignUpOwner() {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('Submitted!');
-  
-    // make HTTP POST request to server
     fetch("http://localhost:3001/api/insertOwner", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

@@ -52,7 +52,7 @@ app.post("/api/insertOwner",(req,res)=>{
       })
       function checkCredentials(email, password) {
         return new Promise((resolve, reject) => {
-          const query = "SELECT * FROM clients WHERE email = ? AND password = ?"; // <-- Enclose the SQL query in double quotes
+          const query = "SELECT * FROM clients WHERE email = ? AND password = ?"; 
           connection.query(query, [email, password], (error, results) => {
             if (error) {
               reject(error);

@@ -8,7 +8,7 @@ function SignInClient() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch('http://localhost:3001/api/authenticate', { // <-- Update the URL to include the correct port (3001)
+    fetch('http://localhost:3001/api/authenticate', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
