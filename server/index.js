@@ -50,7 +50,34 @@ app.post("/api/insertOwner",(req,res)=>{
         }
     });
       })
-      
+      function checkCredentials(email, password) {
+        return new Promise((resolve, reject) => {
+          const query = "SELECT * FROM clients WHERE email = ? AND password = ?"; // <-- Enclose the SQL query in double quotes
+          connection.query(query, [email, password], (error, results) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(results.length > 0);
+            }
+          });
+        });
+      }
+  app.post('/api/authenticate', (req, res) => {
+    const { email, password } = req.body;
+    checkCredentials(email, password)
+      .then((authenticated) => {
+        if (authenticated) {
+          res.status(200).json({ message: 'Authentication successful' });
+        } else {
+          res.status(401).json({ message: 'Authentication failed' });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+      });
+  });
+  
 app.post("/api/insertClient",(req,res)=>{
     console.log(req.body);
     const first_name = req.body.first_name;
