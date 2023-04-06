@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function SignUpOwner() {
+function SignUpOwner(props) {
   const [name, setName] = useState('');
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -17,7 +19,8 @@ function SignUpOwner() {
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.log(error));
-    
+    props.getOwner(true)
+    navigate('/signInOwner');
   };
   
   

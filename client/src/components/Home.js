@@ -55,7 +55,7 @@ function Home(props) {
           <button onClick={handleOwnerClick}>Sign In</button>
           <button onClick={() => setShowSignUpOwner(true)}>Sign Up</button>
           {showSignInOwner && <SignInOwner getOwner={props.getOwner} />}
-          {showSignUpOwner && <SignUpOwner />}
+          {showSignUpOwner && <SignUpOwner getOwner={props.getOwner}/>}
         </>
       )}
     </div>

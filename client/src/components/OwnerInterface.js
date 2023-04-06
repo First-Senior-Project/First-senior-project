@@ -7,7 +7,7 @@ function OwnerInterface() {
   useEffect(() => {
     async function getClients() {
       try {
-        const response = await axios.get(`http://localhost:3001/api/getClient/`);
+        const response = await axios.get(`http://localhost:3001/api/getClient/3`);
         setClients(response.data);
       } catch (error) {
         console.error(error);

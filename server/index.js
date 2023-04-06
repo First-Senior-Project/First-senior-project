@@ -32,7 +32,21 @@ app.get("/api/getClient/:store_owner_id_owner",(req,res)=>{
         err ?   console.log(err) :  res.status(200).json(result)
     })
 })
-
+app.get("/api/getOne/:idclients",(req,res)=>{
+    const idclients=req.params.idclients;
+    const sqlSelect = "SELECT * FROM clients WHERE idclients=?"
+    connection.query(sqlSelect,[idclients],(err,result)=>{
+        err ?   console.log(err) :  res.status(200).json(result)
+    })
+})
+app.get("/api/getConditionally",(req,res)=>{
+    const email=req.body.email;
+    const password=req.body.password;
+    const sqlSelect = "SELECT idclients FROM clients WHERE email=? AND password=?"
+    connection.query(sqlSelect,[email,password],(err,result)=>{
+        err ?   console.log(err) :  res.status(200).json(result)
+    })
+})
 
 
 

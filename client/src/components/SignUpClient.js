@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-
-function SignUpClient() {
+import { useNavigate } from 'react-router-dom';
+function SignUpClient(props) {
   const [name, setName] = useState('');
   const [lastname,setLastName]=useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [idowner,setIdOwner]=useState('');
-  
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('Submitted!');
@@ -18,6 +18,7 @@ function SignUpClient() {
       .then(response => response.json())
       .then(data => console.log(data))
       .catch(error => console.log(error));
+      navigate('/signInClient');
   };
 
   return (
