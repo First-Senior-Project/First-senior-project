@@ -25,13 +25,15 @@ app.get("/api/getLinaA7NA",(req,res)=>{
         err ?   console.log(err) :  res.status(200).json(result)
     })
 })
-app.get("/api/getClient",(req,res)=>{
-    const idOwner=req.body.store_owner_id_owner;
+app.get("/api/getClient/:store_owner_id_owner",(req,res)=>{
+    const idOwner=req.params.store_owner_id_owner;
     const sqlSelect = "SELECT * FROM clients WHERE store_owner_id_owner=?"
     connection.query(sqlSelect,[idOwner],(err,result)=>{
         err ?   console.log(err) :  res.status(200).json(result)
     })
 })
+
+
 
 
 app.post("/api/insertOwner",(req,res)=>{
@@ -50,6 +52,7 @@ app.post("/api/insertOwner",(req,res)=>{
         }
     });
       })
+
       function checkCredentials(email, password) {
         return new Promise((resolve, reject) => {
           const query = "SELECT * FROM clients WHERE email = ? AND password = ?"; 
@@ -62,6 +65,7 @@ app.post("/api/insertOwner",(req,res)=>{
           });
         });
       }
+
   app.post('/api/authenticate', (req, res) => {
     const { email, password } = req.body;
     checkCredentials(email, password)
@@ -78,6 +82,36 @@ app.post("/api/insertOwner",(req,res)=>{
       });
   });
   
+  function checkCredentials(email, password) {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT * FROM store_owner WHERE email = ? AND password = ?"; 
+      connection.query(query, [email, password], (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(results.length > 0);
+        }
+      });
+    });
+  }
+  
+app.post('/api/authenticateOwner', (req, res) => {
+const { email, password } = req.body;
+checkCredentials(email, password)
+  .then((authenticated) => {
+    if (authenticated) {
+      res.status(200).json({ message: 'Authentication successful' });
+    } else {
+      res.status(401).json({ message: 'Authentication failed' });
+    }
+  })
+  .catch((error) => {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  });
+});
+
+
 app.post("/api/insertClient",(req,res)=>{
     console.log(req.body);
     const first_name = req.body.first_name;

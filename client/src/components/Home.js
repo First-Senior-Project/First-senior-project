@@ -4,7 +4,8 @@ import SignUpClient from './SignUpClient';
 import SignInOwner from './SignInOwner';
 import SignUpOwner from './SignUpOwner';
 
-function Home() {
+function Home(props) {
+  
   const [selectedOption, setSelectedOption] = useState("");
   const [showSignInClient, setShowSignInClient] = useState(false);
   const [showSignUpClient, setShowSignUpClient] = useState(false);
@@ -44,7 +45,7 @@ function Home() {
         <>
           <button onClick={handleClientClick}>Sign In</button>
           <button onClick={() => setShowSignUpClient(true)}>Sign Up</button>
-          {showSignInClient && <SignInClient />}
+          {showSignInClient && <SignInClient getClient={props.getClient} />}
           {showSignUpClient && <SignUpClient />}
         </>
       )}
@@ -53,7 +54,7 @@ function Home() {
         <>
           <button onClick={handleOwnerClick}>Sign In</button>
           <button onClick={() => setShowSignUpOwner(true)}>Sign Up</button>
-          {showSignInOwner && <SignInOwner />}
+          {showSignInOwner && <SignInOwner getOwner={props.getOwner} />}
           {showSignUpOwner && <SignUpOwner />}
         </>
       )}
