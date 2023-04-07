@@ -79,7 +79,7 @@ function OwnerInterface() {
       
       <ul>
         {clients.map(client => (
-          <div key={client.idclients}>
+          <div className='card' key={client.idclients}>
             
             <li>{client.first_name}{" "}{client.last_name}</li>
            <li>balance:{client.balance}   <button onClick={() => handleIncreaseBalance(client.idclients)}>+</button>

@@ -20,7 +20,7 @@ function SignUpOwner(props) {
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.log(error));
-    props.getOwner(true)
+    
     navigate('/signInOwner');}
     else {
       alert('somthing wrong in the fields you typed');

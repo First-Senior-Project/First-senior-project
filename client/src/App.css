@@ -107,3 +107,10 @@ body {
 .brand-logo.shake {
     animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both infinite;
 }
+.card {
+  width: 700px;
+  height: 170px;
+  border: 2px solid white;
+  border-radius: 15px;
+  margin: 10px;
+  }

@@ -5,7 +5,6 @@ import SignInOwner from './SignInOwner';
 import SignUpOwner from './SignUpOwner';
 
 function Home(props) {
-  
   const [selectedOption, setSelectedOption] = useState("");
   const [showSignInClient, setShowSignInClient] = useState(false);
   const [showSignUpClient, setShowSignUpClient] = useState(false);
@@ -32,6 +31,14 @@ function Home(props) {
     setShowSignUpOwner(false);
   };
 
+  const handleSignUpClickK = () => {
+    setShowSignUpClient(true);
+  };
+  
+  const handleSignUpClick = () => {
+    setShowSignUpClient(true);
+  };
+
   return (
     <div>
       <h1>Welcome to My Website!</h1>
@@ -43,19 +50,15 @@ function Home(props) {
 
       {selectedOption === "client" && (
         <>
-          <button onClick={handleClientClick}>Sign In</button>
-          <button onClick={() => setShowSignUpClient(true)}>Sign Up</button>
-          {showSignInClient && <SignInClient getClient={props.getClient} />}
+          <SignInClient getClient={props.getClient} handleSignUpClickK={handleSignUpClickK} />
           {showSignUpClient && <SignUpClient />}
         </>
       )}
 
       {selectedOption === "owner" && (
         <>
-          <button onClick={handleOwnerClick}>Sign In</button>
-          <button onClick={() => setShowSignUpOwner(true)}>Sign Up</button>
-          {showSignInOwner && <SignInOwner getOwner={props.getOwner} />}
-          {showSignUpOwner && <SignUpOwner getOwner={props.getOwner}/>}
+          <SignInOwner getOwner={props.getOwner} handleSignUpClick={handleSignUpClick} />
+          {showSignUpOwner && <SignUpOwner  />}
         </>
       )}
     </div>

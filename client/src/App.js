@@ -5,7 +5,7 @@ import OwnerInterface from './components/OwnerInterface';
 import ClientInterface from './components/ClientInterface.js';
 import SignInClient from './components/SignInClient';
 import SignInOwner from './components/SignInOwner';
-
+import "./App.css"
 function App() {
   
   const [client,setClient]=useState(false);
