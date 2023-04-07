@@ -1,11 +1,33 @@
 import React, { useState } from 'react';
-function SignInOwner() {
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+
+function SignInOwner(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Submitted!');
+    axios.post('http://localhost:3001/api/authenticateOwner',  { email, password }
+    )
+      .then(({data}) => {
+        
+        console.log(data);
+        if (data) {
+           props.getOwner (data)
+          
+          navigate('/OwnerInterface',{state: {id:data.data.id_owner}});
+        } else {
+          console.error('Authentication failed');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>Sign In</h2>
@@ -21,6 +43,7 @@ function SignInOwner() {
     </form>
   );
 }
+
 export default SignInOwner;
 
 

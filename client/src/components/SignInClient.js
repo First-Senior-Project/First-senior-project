@@ -1,11 +1,32 @@
 import React, { useState } from 'react';
-function SignInClient() {
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
+function SignInClient(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log('Submitted!');
+    axios.post('http://localhost:3001/api/authenticateClient', {email,password}
+      )
+      .then(({data}) => {
+        console.log(data);
+        if (data ) {
+
+          props.getClient(data)
+          navigate('/ClientInterface',{state: {id:data.data.idclients}});
+
+        } else {
+          console.error('Authentication failed');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+
   return (
     <form onSubmit={handleSubmit}>
       <h2>Sign In</h2>
@@ -21,4 +42,5 @@ function SignInClient() {
     </form>
   );
 }
+
 export default SignInClient;
