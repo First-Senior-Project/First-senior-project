@@ -19,7 +19,7 @@ app.use(express.json())
 app.use(urlencoded({extended:true}))  
 
 
-app.get("/api/getLinaA7NA",(req,res)=>{
+app.get("/api/getOwners",(req,res)=>{
     const sqlSelect = "SELECT * FROM store_owner"
     connection.query(sqlSelect,(err,result)=>{
         err ?   console.log(err) :  res.status(200).json(result)
@@ -74,18 +74,20 @@ app.post("/api/insertOwner",(req,res)=>{
             if (error) {
               reject(error);
             } else {
-              resolve(results.length > 0);
+              console.log(results)
+              resolve(results);
             }
           });
         });
       }
 
-  app.post('/api/authenticate', (req, res) => {
+      
+  app.post('/api/authenticateClient', (req, res) => {
     const { email, password } = req.body;
     checkCredentials(email, password)
       .then((authenticated) => {
         if (authenticated) {
-          res.status(200).json({ message: 'Authentication successful' });
+          res.status(200).json({ message: 'Authentication successful',data:authenticated[0] });
         } else {
           res.status(401).json({ message: 'Authentication failed' });
         }
@@ -96,14 +98,14 @@ app.post("/api/insertOwner",(req,res)=>{
       });
   });
   
-  function checkCredentials(email, password) {
+  function checkCredentialss(email, password) {
     return new Promise((resolve, reject) => {
       const query = "SELECT * FROM store_owner WHERE email = ? AND password = ?"; 
       connection.query(query, [email, password], (error, results) => {
         if (error) {
           reject(error);
         } else {
-          resolve(results.length > 0);
+          resolve(results);
         }
       });
     });
@@ -111,10 +113,10 @@ app.post("/api/insertOwner",(req,res)=>{
   
 app.post('/api/authenticateOwner', (req, res) => {
 const { email, password } = req.body;
-checkCredentials(email, password)
+checkCredentialss(email, password)
   .then((authenticated) => {
     if (authenticated) {
-      res.status(200).json({ message: 'Authentication successful' });
+      res.status(200).json({ message: 'Authentication successful',data:authenticated[0] });
     } else {
       res.status(401).json({ message: 'Authentication failed' });
     }
@@ -143,14 +145,19 @@ app.post("/api/insertClient",(req,res)=>{
         }
     });
       })
-app.delete('/api/deleteClient/:idclient',(req,res)=>{
-    const idclient = req.params.idclient
-    const sqlDelete = "DELETE FROM clients WHERE idclients= ? AND balance=0 "
-    connection.query(sqlDelete,idclient,(err,result)=>{
-        err ?   console.log(err) :  res.status(200).json('done')
-    })
-})
-app.put("/api/updateBalance+/:idclients", (req, res) => {
+      app.delete('/api/deleteClient/:idclient', (req, res) => {
+        const idclient = req.params.idclient;
+        const sqlDelete = "DELETE FROM clients WHERE idclients= ? AND balance=0";
+        connection.query(sqlDelete, idclient, (err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(500).json('Error deleting client');
+          } else {
+            res.status(200).json('Client deleted successfully');
+          }
+        });
+      });
+app.put("/api/addBalance/:idclients", (req, res) => {
     const toAdd = req.body.balance;
     const idclient = req.params.idclients; 
     const sqlUpdate = "UPDATE clients SET balance = balance+? WHERE idclients = ?"; 
@@ -162,10 +169,11 @@ app.put("/api/updateBalance+/:idclients", (req, res) => {
         }
     });
 });
-app.put("/api/updateBalance-/:idclients", (req, res) => {
+app.put("/api/retrieveBalance/:idclients", (req, res) => {
     const toAdd = req.body.balance; 
     const idclient = req.params.idclients; 
-    const sqlUpdate = "UPDATE clients SET balance = balance-? WHERE idclients = ?"; 
+    const sqlUpdate = "UPDATE clients SET balance = balance - ? WHERE idclients = ?"
+
     connection.query(sqlUpdate, [toAdd, idclient], (err, result) => {
         if (err) {
             console.log(err);

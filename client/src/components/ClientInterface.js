@@ -1,21 +1,44 @@
+import React, { useState, useEffect } from "react";
+import { useLocation,useNavigate } from 'react-router-dom';
 
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+
 function ClientInterface() {
-  const [clientData, setClientData] = useState({});
-  useEffect(() => {
-    const idclients = window.location.pathname.split('/').pop(); // Extract idclients from URL
-    fetch(`http://localhost:3001/api/getOne/${idclients}`)
-      .then((response) => response.json())
-      .then((data) => setClientData(data[0])) // Set the user's information in the state
-      .catch((error) => console.error(error));
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+ const navigate=useNavigate();
+ const client=useLocation();
+ console.log(client.state.id); 
+ useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/getOne/${client.state.id}`);
+        setUser(response.data[0]);
+        setIsLoading(false);
+      } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, []);
-  
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+  const handleLogOut = () => {
+    navigate('/'); // navigate to the home component
+  };
   return (
     <div>
-      <h2>Welcome, {clientData.firstname} {clientData.lastname}!</h2>
-      <p>Email: {clientData.email}</p>
-      <p>Phone: {clientData.phone}</p>
-      <p>Address: {clientData.address}</p>
+      <button onClick={handleLogOut}>logOut</button>
+      <h1>{user.first_name} {user.last_name}</h1>
+      <p>Email: {user.email}</p>
+      <p>Balance: {user.balance}</p>
+      <p>Role: {user.role}</p>
+       
     </div>
-  );}
+  );
+}
+
 export default ClientInterface;

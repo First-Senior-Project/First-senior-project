@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function SignInClient(props) {
   const [email, setEmail] = useState('');
@@ -8,19 +9,14 @@ function SignInClient(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch('http://localhost:3001/api/authenticate', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    })
-      .then((response) => {
-        
-        if (response.ok ) {
+    axios.post('http://localhost:3001/api/authenticateClient', {email,password}
+      )
+      .then(({data}) => {
+        console.log(data);
+        if (data ) {
 
-          props.getClient(response.ok)
-          navigate('/ClientInterface');
+          props.getClient(data)
+          navigate('/ClientInterface',{state: {id:data.data.idclients}});
 
         } else {
           console.error('Authentication failed');
