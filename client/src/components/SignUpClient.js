@@ -27,7 +27,7 @@ function SignUpClient(props) {
   
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
+      <h2 id='signup'>Sign Up</h2>
       <label>
         Name:
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} />

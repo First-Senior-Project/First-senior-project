@@ -34,15 +34,15 @@ function Home(props) {
   const handleSignUpClickK = () => {
     setShowSignUpClient(true);
   };
-  
+
   const handleSignUpClick = () => {
     setShowSignUpClient(true);
   };
 
   return (
-    <div>
-      <h1>Welcome to My Website!</h1>
-      <select value={selectedOption} onChange={handleOptionChange}>
+    <div className="container1">
+      <h1 id="welcome-heading">Welcome to My Website!</h1>
+      <select id="option-select" value={selectedOption} onChange={handleOptionChange}>
         <option value="">Select an option</option>
         <option value="client">For client</option>
         <option value="owner">For owner</option>
@@ -58,7 +58,7 @@ function Home(props) {
       {selectedOption === "owner" && (
         <>
           <SignInOwner getOwner={props.getOwner} handleSignUpClick={handleSignUpClick} />
-          {showSignUpOwner && <SignUpOwner  />}
+          {showSignUpOwner && <SignUpOwner />}
         </>
       )}
     </div>
