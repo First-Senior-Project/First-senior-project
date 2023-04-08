@@ -4,10 +4,36 @@ function Contact() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   function handleSubmit(event) {
     event.preventDefault();
- 
+
+    const newInquiry = {
+      name: name,
+      email: email,
+      inquiry: message
+    };
+
+    fetch('http://localhost:3001/api/insertInquiry', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newInquiry)
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Inquiry posted successfully!');
+        setSuccessMessage('Thanks, we received your message. We will get in touch!');
+        setName('');
+        setEmail('');
+        setMessage('');
+      } else {
+        console.log('Failed to post inquiry!');
+      }
+    })
+    .catch(error => console.error(error));
   }
 
   return (
@@ -25,6 +51,7 @@ function Contact() {
 
         <button type="submit">Send Message</button>
       </form>
+      {successMessage && <p>{successMessage}</p>}
       <p>Or email us at <a href="mailto:kerdili@rbk.com">kerdili@rbk.com</a></p>
     </div>
   );

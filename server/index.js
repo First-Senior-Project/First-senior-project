@@ -151,6 +151,22 @@ app.post("/api/insertClient",(req,res)=>{
         }
     });
       })
+      
+app.post("/api/insertInquiry",(req,res)=>{
+  console.log(req.body);
+  const name = req.body.name;
+  const email=req.body.email;
+const inquiry=req.body.inquiry;
+  const sqlInsert = "INSERT INTO contacts (name,email,inquiry) VALUES (?,?,?)"
+  connection.query(sqlInsert,[name,email,inquiry],(err,result)=>{
+      if (err) {
+          console.log(err);
+          res.status(500).json({ error: 'Error inserting data into database.' });
+      } else {
+          res.status(201).json('posted');
+      }
+  });
+    })
       app.delete('/api/deleteClient/:idclient', (req, res) => {
         const idclient = req.params.idclient;
         const sqlDelete = "DELETE FROM clients WHERE idclients= ? AND balance=0";
