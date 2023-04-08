@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function SignUpOwner() {
+function SignUpOwner(props) {
   const [name, setName] = useState('');
   const [lastname, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('Submitted!');
-
-    // make HTTP POST request to server
+    if (password.length>8 && lastname.length>2 && name.length>2){
     fetch("http://localhost:3001/api/insertOwner", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -19,9 +20,14 @@ function SignUpOwner() {
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.log(error));
+    
+    navigate('/signInOwner');}
+    else {
+      alert('somthing wrong in the fields you typed');
+    }
   };
-
-
+  
+  
   return (
     <form onSubmit={handleSubmit}>
       <h2>Sign Up</h2>
