@@ -50,7 +50,7 @@ function SignInClient(props) {
           </label>
           <button type="submit">Submit</button>
           <div>
-            <p> or instead:
+            <p> Create Account:
           <button type="button" onClick={handleSignUpClickK}>Sign Up</button>
           </p>
           </div>      

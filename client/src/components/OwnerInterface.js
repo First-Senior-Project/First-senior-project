@@ -4,9 +4,10 @@ import axios from 'axios';
 
 function OwnerInterface() {
   const user = useLocation();
-  console.log(user.state);
+  console.log(user);
   const [clients, setClients] = useState([]);
   const [inputValue, setInputValue] = useState('');
+  const [owner,setOwner]=useState([]);
   const navigate = useNavigate(); // get the history object
 
   useEffect(() => {
@@ -20,7 +21,19 @@ function OwnerInterface() {
     }
     getClients();
   }, []);
-
+  useEffect(() => {
+    async function getOwner() {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/getOneOwner/${user.state.id}`);
+        setOwner(response.data);
+        console.log(response.data)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getOwner();
+  }, []);
+console.log(owner)
   const handleDeleteClient = async (clientId) => {
     const clientToDelete = clients.find(client => client.idclients === clientId);
     if (clientToDelete.balance === 0) {
@@ -75,24 +88,30 @@ function OwnerInterface() {
   return (
     <div>
       <button onClick={handleLogOut}>logOut</button>
-      <h2> Your clients</h2>
-      
-      <ul>
-        {clients.map(client => (
-          <div className='card' key={client.idclients}>
-            
-            <li>{client.first_name}{" "}{client.last_name}</li>
-           <li>balance:{client.balance}   <button onClick={() => handleIncreaseBalance(client.idclients)}>+</button>
-            <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} />
-            <button onClick={() => handleDecreaseBalance(client.idclients)}>-</button>
-             </li>   
-           <li><button onClick={() => handleDeleteClient(client.idclients)}>Delete client</button></li>
-          </div> 
-           
-        ))}
-      </ul>
-      
+    
+      <h1>hello {owner[0]?.first_name} {owner[0]?.last_name} </h1>
+       <h1>your id is: {owner[0]?.id_owner} </h1>
+      <h2>Your clients:</h2>
+
+<ul class="client-list">
+  {clients.map(client => (
+  <li key={client.idclients} class="client-card">
+    <div class="card-header">
+      <h3>{client.first_name} {client.last_name}</h3>
+      <button class="delete-button" onClick={() => handleDeleteClient(client.idclients)}>Delete client</button>
     </div>
+    <div class="card-body">
+      <p>Debt: {client.balance} Millimes</p>
+      <div class="balance-input">
+        <button onClick={() => handleIncreaseBalance(client.idclients)}>+</button>
+        <input type="number" min="0" maxLength="6"  value={inputValue[client.idclients]} onChange={(e) => setInputValue(e.target.value)} />
+        <button onClick={() => handleDecreaseBalance(client.idclients)}>-</button>
+      </div>
+    </div>
+  </li>
+  ))}
+</ul>
+</div>
   );
 }
 

@@ -18,7 +18,13 @@ app.use(cors())
 app.use(express.json())
 app.use(urlencoded({extended:true}))  
 
-
+app.get("/api/getOneOwner/:id_owner",(req,res)=>{
+  const idowner=req.params.id_owner;
+  const sqlSelect = "SELECT * FROM store_owner WHERE id_owner=?"
+  connection.query(sqlSelect,[idowner],(err,result)=>{
+      err ?   console.log(err) :  res.status(200).json(result)
+  })
+})
 app.get("/api/getOwners",(req,res)=>{
     const sqlSelect = "SELECT * FROM store_owner"
     connection.query(sqlSelect,(err,result)=>{

@@ -35,7 +35,6 @@ function ClientInterface() {
       <h1>{user.first_name} {user.last_name}</h1>
       <p>Email: {user.email}</p>
       <p>Balance: {user.balance}</p>
-      <p>Role: {user.role}</p>
        
     </div>
   );
