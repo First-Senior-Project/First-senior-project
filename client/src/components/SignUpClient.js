@@ -10,6 +10,7 @@ function SignUpClient(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('Submitted!');
+    if (password.length>8 && lastname.length>2 && name.length>2){
       fetch("http://localhost:3001/api/insertClient", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -19,11 +20,14 @@ function SignUpClient(props) {
       .then(data => console.log(data))
       .catch(error => console.log(error));
       navigate('/signInClient');
+    } else {
+      alert('something wrong in the field you typed');
+    }
   };
-
+  
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
+      <h2 id='signup'>Sign Up</h2>
       <label>
         Name:
         <input type="text" value={name} onChange={(e) => setName(e.target.value)} />

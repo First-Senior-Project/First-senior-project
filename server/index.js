@@ -145,14 +145,19 @@ app.post("/api/insertClient",(req,res)=>{
         }
     });
       })
-app.delete('/api/deleteClient/:idclient',(req,res)=>{
-    const idclient = req.params.idclient
-    const sqlDelete = "DELETE FROM clients WHERE idclients= ? AND balance=0 "
-    connection.query(sqlDelete,idclient,(err,result)=>{
-        err ?   console.log(err) :  res.status(200).json('done')
-    })
-})
-app.put("/api/updateBalance+/:idclients", (req, res) => {
+      app.delete('/api/deleteClient/:idclient', (req, res) => {
+        const idclient = req.params.idclient;
+        const sqlDelete = "DELETE FROM clients WHERE idclients= ? AND balance=0";
+        connection.query(sqlDelete, idclient, (err, result) => {
+          if (err) {
+            console.log(err);
+            res.status(500).json('Error deleting client');
+          } else {
+            res.status(200).json('Client deleted successfully');
+          }
+        });
+      });
+app.put("/api/addBalance/:idclients", (req, res) => {
     const toAdd = req.body.balance;
     const idclient = req.params.idclients; 
     const sqlUpdate = "UPDATE clients SET balance = balance+? WHERE idclients = ?"; 
@@ -164,10 +169,11 @@ app.put("/api/updateBalance+/:idclients", (req, res) => {
         }
     });
 });
-app.put("/api/updateBalance-/:idclients", (req, res) => {
+app.put("/api/retrieveBalance/:idclients", (req, res) => {
     const toAdd = req.body.balance; 
     const idclient = req.params.idclients; 
-    const sqlUpdate = "UPDATE clients SET balance = balance-? WHERE idclients = ?"; 
+    const sqlUpdate = "UPDATE clients SET balance = balance - ? WHERE idclients = ?"
+
     connection.query(sqlUpdate, [toAdd, idclient], (err, result) => {
         if (err) {
             console.log(err);

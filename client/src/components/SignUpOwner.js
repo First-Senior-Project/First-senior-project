@@ -11,6 +11,7 @@ function SignUpOwner(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('Submitted!');
+    if (password.length>8 && lastname.length>2 && name.length>2){
     fetch("http://localhost:3001/api/insertOwner", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -19,8 +20,11 @@ function SignUpOwner(props) {
     .then(response => response.json())
     .then(data => console.log(data))
     .catch(error => console.log(error));
-    props.getOwner(true)
-    navigate('/signInOwner');
+    
+    navigate('/signInOwner');}
+    else {
+      alert('somthing wrong in the fields you typed');
+    }
   };
   
   
