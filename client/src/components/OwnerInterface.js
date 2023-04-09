@@ -4,10 +4,16 @@ import axios from 'axios';
 
 function OwnerInterface() {
   const user = useLocation();
-  console.log(user.state);
   const [clients, setClients] = useState([]);
   const [inputValue, setInputValue] = useState('');
-  const navigate = useNavigate(); // get the history object
+  const [owner,setOwner]=useState([]);
+  const [showId, setShowId] = useState(false);
+  const navigate = useNavigate(); 
+  const [searchQuery, setSearchQuery] = useState("");
+  const filteredClients = clients.filter((client) =>
+    client.first_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
 
   useEffect(() => {
     async function getClients() {
@@ -20,7 +26,17 @@ function OwnerInterface() {
     }
     getClients();
   }, []);
-
+  useEffect(() => {
+    async function getOwner() {
+      try {
+        const response = await axios.get(`http://localhost:3001/api/getOneOwner/${user.state.id}`);
+        setOwner(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getOwner();
+  }, []);
   const handleDeleteClient = async (clientId) => {
     const clientToDelete = clients.find(client => client.idclients === clientId);
     if (clientToDelete.balance === 0) {
@@ -30,7 +46,7 @@ function OwnerInterface() {
         setClients(updatedClients);
       }
     } else {
-      alert('The client has a balance, cannot be deleted');
+      alert('The client has Debt, cannot be deleted');
     }
   };
 
@@ -69,17 +85,37 @@ function OwnerInterface() {
   };
 
   const handleLogOut = () => {
-    navigate('/'); // navigate to the home component
+    navigate('/'); 
   };
-
+  function handleSearchInputChange(event) {
+    setSearchQuery(event.target.value);
+  };
+  
+  const handleIdClick = () => {
+    setShowId(!showId);
+  };
   return (
-    <div>
-      <button onClick={handleLogOut}>logOut</button>
-
-      <h2>Your clients</h2>
+ 
+    <div className='allowner'>
+      <button className='logout' onClick={handleLogOut}>LogOut</button>
+<div className='headOwner'>
+<h1> <span className='welcomeword'> Welcome&nbsp;&nbsp;&nbsp; </span>  {owner[0]?.first_name} {owner[0]?.last_name} </h1>
+       <h1 className='urid' onClick={handleIdClick}>&nbsp;&nbsp;&nbsp;Your id: {showId ? owner[0]?.id_owner : '*****'} </h1>
+     
+  </div>    
+  <h2 className='clientlist'>Your clients</h2>
+  <div className='inputclients'>
+        <label htmlFor="searchInput"></label>
+        <input placeholder='Search for a client  by his first name'
+          type="text"
+          id="searchInput"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+        />
+      </div>
 
 <ul class="client-list">
-  {clients.map(client => (
+  {filteredClients.map(client => (
   <li key={client.idclients} class="client-card">
     <div class="card-header">
       <h3>{client.first_name} {client.last_name}</h3>
@@ -101,3 +137,8 @@ function OwnerInterface() {
 }
 
 export default OwnerInterface;
+
+
+
+    
+  

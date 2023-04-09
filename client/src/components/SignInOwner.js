@@ -7,6 +7,8 @@ function SignInOwner(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showSignUp, setShowSignUp] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -14,7 +16,6 @@ function SignInOwner(props) {
     )
       .then(({data}) => {
         
-        console.log(data);
         if (data) {
            props.getOwner (data)
           
@@ -25,6 +26,8 @@ function SignInOwner(props) {
       })
       .catch((error) => {
         console.error(error);
+        setEmailErrorMessage('Double Check Your Email');
+        setPasswordErrorMessage('Double Check Your Password');
       });
   };
   const handleSignUpClick = () => {
@@ -35,19 +38,22 @@ function SignInOwner(props) {
       {showSignUp ? (
         <SignUpOwner />
       ) : (
-        <form onSubmit={handleSubmit}>
-          <h2>Sign In</h2>
+        <form className='formowner' onSubmit={handleSubmit}>
+          <h2>Sign In For Owners</h2>
           <label>
-            Email:
+          &nbsp;&nbsp;&nbsp; Email&nbsp;&nbsp;&nbsp;
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            {emailErrorMessage && <span>{emailErrorMessage}</span>}
           </label>
           <label>
-            Password:
+            Password
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            {passwordErrorMessage && <span>{passwordErrorMessage}</span>}
           </label>
           <button type="submit">Submit</button>
           <div>         
-             <p>Create Account<button type="button" onClick={handleSignUpClick}>Sign Up</button></p>
+             <label>Create Account &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <button type="button" onClick={handleSignUpClick}>Sign Up</button></label>
              </div>
 
         </form>
