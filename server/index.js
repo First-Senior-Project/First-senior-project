@@ -8,7 +8,7 @@ const config= {
 
     host:"127.0.0.1",
     user:"root",
-    password:"chimonen3sal",
+    password:"root",
     database: "kardili"
 }
 const connection =mysql2.createConnection(config)

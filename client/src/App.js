@@ -7,7 +7,10 @@ import OwnerInterface from './components/OwnerInterface';
 import ClientInterface from './components/ClientInterface.js';
 import SignInClient from './components/SignInClient';
 import SignInOwner from './components/SignInOwner';
+
 import "@fortawesome/fontawesome-free/css/all.min.css";
+
+
 import './App.css';
 function App() {
   const [client,setClient]=useState(false);
@@ -24,11 +27,13 @@ function App() {
     <div className="App">
     <nav id="navbar">
       <div className="nav-wrapper">
+
  <a href="/" ><img className='brand-logo' src="https://res.cloudinary.com/dm50agjsx/image/upload/v1681046631/ef4e66pbgf4ecwxn4yd7.png"alt="Your Logo"/></a>
               <ul className="nav-links">
               <li><a href="/"><h3>Home</h3></a></li>
               <li><a href="About"><h3>About</h3></a></li>
               <li><a href="Contact"><h3>Contact</h3></a></li>
+
           </ul>
       </div>
   </nav>
@@ -44,6 +49,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       <footer className='footer'>
+
   Copyright &copy; Kerdini 2023 <div className="social-icons">
           <a href="https://www.facebook.com/jasser.melki.50/" target="_blank" rel="noopener noreferrer">
             <i className="fab fa-facebook-f"></i>
@@ -64,3 +70,4 @@ function App() {
   );
 }
 export default App
+
