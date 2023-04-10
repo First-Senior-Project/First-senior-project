@@ -7,6 +7,8 @@ function SignInClient(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showSignUp, setShowSignUp] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState('');
+  const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
@@ -14,7 +16,6 @@ function SignInClient(props) {
     axios.post('http://localhost:3001/api/authenticateClient', {email,password}
       )
       .then(({data}) => {
-        console.log(data);
         if (data ) {
 
           props.getClient(data)
@@ -26,6 +27,8 @@ function SignInClient(props) {
       })
       .catch((error) => {
         console.error(error);
+        setEmailErrorMessage('Double Check Your Email');
+        setPasswordErrorMessage('Double Check Your Password');
       });
   };
 
@@ -35,24 +38,27 @@ function SignInClient(props) {
 
   return (
     <>
-      {showSignUp ? (
+       {showSignUp ? (
         <SignUpClient />
       ) : (
-        <form onSubmit={handleSubmit}>
-          <h2>Sign In</h2>
+        <form className='formclient' onSubmit={handleSubmit}>
+
+          <h2>Sign In For Clients</h2>
           <label>
-            Email:
+             &nbsp;&nbsp;&nbsp; Email&nbsp;&nbsp;&nbsp;
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            {emailErrorMessage && <span>{emailErrorMessage}</span>}
           </label>
           <label>
-            Password:
+            Password
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            {passwordErrorMessage && <span>{passwordErrorMessage}</span>}
           </label>
           <button type="submit">Submit</button>
           <div>
-            <p> or instead:
+            <label>  Create Account &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <button type="button" onClick={handleSignUpClickK}>Sign Up</button>
-          </p>
+          </label>
           </div>      
         </form>
       )}
@@ -61,3 +67,8 @@ function SignInClient(props) {
 }
 
 export default SignInClient;
+
+
+
+
+

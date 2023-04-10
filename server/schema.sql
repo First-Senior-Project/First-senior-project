@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS `kardili`.`clients` (
   `last_name` VARCHAR(45) NOT NULL,
   `email` VARCHAR(250) NOT NULL,
   `password` VARCHAR(150) NOT NULL,
-  `balance` DECIMAL(6,3) NULL DEFAULT 0,
+  `balance` INT NULL DEFAULT 0,
   `role` ENUM('client') NULL DEFAULT 'client',
   `store_owner_id_owner` INT NOT NULL,
   PRIMARY KEY (`idclients`, `store_owner_id_owner`),

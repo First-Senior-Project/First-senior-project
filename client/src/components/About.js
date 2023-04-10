@@ -1,22 +1,23 @@
-import React from 'react'
+
+import React from 'react';
+
 
 function About() {
   return (
-    <div>
-        <p className='about'>
+    <div className='about-container'>
+      <h1 className='about-title'>About Us</h1>
+      <p className='about-text'>
+        Welcome to our web application! We are a team of passionate developers dedicated to creating innovative solutions for small business owners and their clients.
 
-        Welcome to our web application! We are a team of three students from RBK, and we are thrilled to present our senior project. Our application is designed to make life easier for both store owners and their clients.
+        Our application simplifies the process of managing store credit and debts, allowing store owners to focus on running their business. With our platform, store owners can easily keep track of their clients' credit balance and update them in real-time, making it simpler than ever to manage their accounts.
 
-With our application, store owners can keep track of their clients' depts and easily update them as needed. This makes it simple to manage store credit, allowing store owners to focus on running their business.
+        Our platform is also designed to make life easier for clients. By creating an account with their preferred store owner, clients can access their credit balance and transaction history from anywhere, at any time. This means that they always know where they stand with their credit, making it easier to plan their next purchase.
 
-Clients can also benefit from our application. By creating an account with their preferred store owner, clients can easily check their credit balance and view any transactions made. This means that they always know where they stand with their credit, making it easier to plan their next purchase.
-
-We are proud of our web application and the value it provides to both store owners and their clients. We hope that you find it as useful as we do!
-
-
-</p>
-        </div>
-  )
+        At our core, we believe that technology should make life easier for everyone, and that's why we created our platform. We are proud of what we've built and we're excited to share it with the world. Thank you for visiting our website, and we hope you find our application as useful as we do.
+      </p>
+    </div>
+  );
 }
 
-export default About
+export default About;
+

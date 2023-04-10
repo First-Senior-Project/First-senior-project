@@ -3,50 +3,52 @@ import SignInClient from './SignInClient';
 import SignUpClient from './SignUpClient';
 import SignInOwner from './SignInOwner';
 import SignUpOwner from './SignUpOwner';
+import clientImage from '../client.jpg';
+import ownerImage from '../owner.jpg';
 
 function Home(props) {
   const [selectedOption, setSelectedOption] = useState("");
-  const [showSignInClient, setShowSignInClient] = useState(false);
   const [showSignUpClient, setShowSignUpClient] = useState(false);
-  const [showSignInOwner, setShowSignInOwner] = useState(false);
   const [showSignUpOwner, setShowSignUpOwner] = useState(false);
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(event.target.value);
-    setShowSignInClient(false);
+  function handleClientClick() {
+    setSelectedOption("client");
     setShowSignUpClient(false);
-    setShowSignInOwner(false);
     setShowSignUpOwner(false);
-  };
+  
+ 
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  }
 
-  const handleClientClick = () => {
-    setShowSignInClient(true);
+  function handleOwnerClick() {
+    setSelectedOption("owner");
     setShowSignUpClient(false);
-  };
-
-  const handleOwnerClick = () => {
-    setShowSignInClient(false);
-    setShowSignUpClient(false);
-    setShowSignInOwner(true);
     setShowSignUpOwner(false);
-  };
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  }
 
-  const handleSignUpClickK = () => {
+  function handleSignUpClickK() {
     setShowSignUpClient(true);
-  };
+  }
 
-  const handleSignUpClick = () => {
-    setShowSignUpClient(true);
-  };
+  function handleSignUpClick() {
+    setShowSignUpOwner(true);
+  }
 
   return (
     <div className="container1">
-      <h1 id="welcome-heading">Welcome to My Website!</h1>
-      <select id="option-select" value={selectedOption} onChange={handleOptionChange}>
-        <option value="">Select an option</option>
-        <option value="client">For client</option>
-        <option value="owner">For owner</option>
-      </select>
+      <h1 className='tittle' >Welcome to Kerdini</h1>
+      <h2 id="welcome-heading">&nbsp;&nbsp;&nbsp;&nbsp;Kerdini is  our revolutionary debt management platform! Whether you're a business owner or a client, we've got you covered. <br/> <span id="click-word">Click</span>  on the photo that best represents you: <br/> business owners get access to tools for easy debt management, <br/> while clients can manage their debt with no fees. <br/>Start taking control of your debt today!</h2>
+      <div id="option-buttons">
+      <img className='cl' src={clientImage} alt="For client" onClick={handleClientClick} />
+      <img className='ow' src={ownerImage} alt="For owner" onClick={handleOwnerClick} />
+      </div>
 
       {selectedOption === "client" && (
         <>

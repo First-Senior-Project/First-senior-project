@@ -18,19 +18,18 @@ app.use(cors())
 app.use(express.json())
 app.use(urlencoded({extended:true}))  
 
-
+app.get("/api/getOneOwner/:id_owner",(req,res)=>{
+  const idowner=req.params.id_owner;
+  const sqlSelect = "SELECT * FROM store_owner WHERE id_owner=?"
+  connection.query(sqlSelect,[idowner],(err,result)=>{
+      err ?   console.log(err) :  res.status(200).json(result)
+  })
+})
 app.get("/api/getOwners",(req,res)=>{
     const sqlSelect = "SELECT * FROM store_owner"
     connection.query(sqlSelect,(err,result)=>{
         err ?   console.log(err) :  res.status(200).json(result)
     })
-})
-app.get("/api/getOneOwner/:id_owner",(req,res)=>{
-  const id_owner=req.params.id_owner;
-  const sqlSelect = "SELECT * FROM store_owner WHERE id_owner=?"
-  connection.query(sqlSelect,[id_owner],(err,result)=>{
-      err ?   console.log(err) :  res.status(200).json(result)
-  })
 })
 app.get("/api/getClient/:store_owner_id_owner",(req,res)=>{
     const idOwner=req.params.store_owner_id_owner;
@@ -58,7 +57,6 @@ app.get("/api/getConditionally",(req,res)=>{
 
 
 app.post("/api/insertOwner",(req,res)=>{
-    console.log(req.body);
     const first_name = req.body.first_name;
     const last_name = req.body.last_name;
     const email=req.body.email;
@@ -81,7 +79,6 @@ app.post("/api/insertOwner",(req,res)=>{
             if (error) {
               reject(error);
             } else {
-              console.log(results)
               resolve(results);
             }
           });
@@ -189,6 +186,23 @@ app.put("/api/retrieveBalance/:idclients", (req, res) => {
         }
     });
 });
+
+app.post("/api/insertInquiry",(req,res)=>{
+  console.log(req.body);
+  const name = req.body.name;
+  const email=req.body.email;
+const inquiry=req.body.inquiry;
+  const sqlInsert = "INSERT INTO contacts (name,email,inquiry) VALUES (?,?,?)"
+  connection.query(sqlInsert,[name,email,inquiry],(err,result)=>{
+      if (err) {
+          console.log(err);
+          res.status(500).json({ error: 'Error inserting data into database.' });
+      } else {
+          res.status(201).json('posted');
+      }
+  });
+    })
+
 app.listen(3001,()=>{
     console.log("running on port 3001")
 })
