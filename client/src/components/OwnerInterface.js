@@ -8,7 +8,11 @@ function OwnerInterface() {
   const [clients, setClients] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [owner,setOwner]=useState([]);
-  const navigate = useNavigate(); // get the history object
+  const navigate = useNavigate(); 
+  const [searchQuery, setSearchQuery] = useState("");
+  const filteredClients = clients.filter((client) =>
+    client.first_name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   useEffect(() => {
     async function getClients() {
@@ -84,34 +88,67 @@ console.log(owner)
   const handleLogOut = () => {
     navigate('/'); // navigate to the home component
   };
-
+  function handleSearchInputChange(event) {
+    setSearchQuery(event.target.value);
+  }
+ 
   return (
     <div>
       <button onClick={handleLogOut}>logOut</button>
-    
-      <h1>hello {owner[0]?.first_name} {owner[0]?.last_name} </h1>
-       <h1>your id is: {owner[0]?.id_owner} </h1>
+
+      <h1>
+        hello {owner[0]?.first_name} {owner[0]?.last_name}{" "}
+      </h1>
+      <h1>your id is: {owner[0]?.id_owner} </h1>
+
+      <div>
+        <label htmlFor="searchInput">Search clients by first name:</label>
+        <input
+          type="text"
+          id="searchInput"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+        />
+      </div>
+
       <h2>Your clients:</h2>
 
-<ul class="client-list">
-  {clients.map(client => (
-  <li key={client.idclients} class="client-card">
-    <div class="card-header">
-      <h3>{client.first_name} {client.last_name}</h3>
-      <button class="delete-button" onClick={() => handleDeleteClient(client.idclients)}>Delete client</button>
+      <ul className="client-list">
+        {filteredClients.map((client) => (
+          <li key={client.idclients} className="client-card">
+            <div className="card-header">
+              <h3>
+                {client.first_name} {client.last_name}
+              </h3>
+              <button
+                className="delete-button"
+                onClick={() => handleDeleteClient(client.idclients)}
+              >
+                Delete client
+              </button>
+            </div>
+            <div className="card-body">
+              <p>Debt: {client.balance} Millimes</p>
+              <div className="balance-input">
+                <button onClick={() => handleIncreaseBalance(client.idclients)}>
+                  +
+                </button>
+                <input
+                  type="number"
+                  min="0"
+                  maxLength="6"
+                  value={inputValue[client.idclients]}
+                  onChange={(e) => setInputValue(e.target.value)}
+                />
+                <button onClick={() => handleDecreaseBalance(client.idclients)}>
+                  -
+                </button>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
-    <div class="card-body">
-      <p>Debt: {client.balance} Millimes</p>
-      <div class="balance-input">
-        <button onClick={() => handleIncreaseBalance(client.idclients)}>+</button>
-        <input type="number" min="0" maxLength="6"  value={inputValue[client.idclients]} onChange={(e) => setInputValue(e.target.value)} />
-        <button onClick={() => handleDecreaseBalance(client.idclients)}>-</button>
-      </div>
-    </div>
-  </li>
-  ))}
-</ul>
-</div>
   );
 }
 
